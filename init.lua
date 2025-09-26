@@ -22,9 +22,9 @@ downloader.Font = Enum.Font.Arial
 local httpService = cloneref(game:GetService('HttpService'))
 
 local success, commitdata = pcall(function()
-    local commitinfo = httpService:JSONDecode(game:HttpGet('https://api.github.com/repos/new-qwertyui/CatV5/commits'))[1]
+    local commitinfo = httpService:JSONDecode(game:HttpGet('https://api.github.com/repos/HEnoeee/CatV5/commits'))[1]
     if commitinfo and type(commitinfo) == 'table' then
-        local fullinfo = httpService:JSONDecode(game:HttpGet('https://api.github.com/repos/new-qwertyui/CatV5/commits/'.. commitinfo.sha))
+        local fullinfo = httpService:JSONDecode(game:HttpGet('https://api.github.com/repos/HEnoeee/CatV5/commits'.. commitinfo.sha))
         fullinfo.hash = commitinfo.sha:sub(1, 7)
         return fullinfo
     end
@@ -51,7 +51,7 @@ local function downloadFile(path, func)
 		local suc, res = pcall(function()
 			local subbed = path:gsub('catrewrite/', '')
 			subbed = subbed:gsub(' ', '%%20')
-			return game:HttpGet('https://raw.githubusercontent.com/new-qwertyui/CatV5/'..readfile('catrewrite/profiles/commit.txt')..'/'..subbed, true)
+			return game:HttpGet('https://raw.githubusercontent.com/HEnoeee/CatV5/'..readfile('catrewrite/profiles/commit.txt')..'/'..subbed, true)
 		end)
 		if not suc or res == '404: Not Found' then
 			error(res)
@@ -83,7 +83,7 @@ end
 if not isfolder('catrewrite') or #listfiles('catrewrite') <= 6 or not isfolder('catrewrite/profiles') or not isfile('catrewrite/profiles/commit.txt') then
     makefolder('catrewrite/profiles')
     writefile('catrewrite/profiles/commit.txt', commitdata.sha)
-    local req = httpService:JSONDecode(game:HttpGet('https://api.github.com/repos/new-qwertyui/CatV5/contents/profiles'))
+    local req = httpService:JSONDecode(game:HttpGet('https://api.github.com/repos/HEnoeee/CatV5/contents/profiles'))
     for _, v in req do
         if v.path ~= 'profiles/commit.txt' then
 			downloader.Text = `Downloading catrewrite/{v.path}`
@@ -91,7 +91,7 @@ if not isfolder('catrewrite') or #listfiles('catrewrite') <= 6 or not isfolder('
         end
     end
     task.spawn(function()
-        local req = httpService:JSONDecode(game:HttpGet('https://api.github.com/repos/new-qwertyui/CatV5/contents/translations'))
+        local req = httpService:JSONDecode(game:HttpGet('https://api.github.com/repos/HEnoeee/CatV5/contents/translations'))
         for _, v in req do
             downloadFile(`catrewrite/{v.path}`)
         end
